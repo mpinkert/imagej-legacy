@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.scijava</groupId>
 		<artifactId>pom-scijava</artifactId>
-		<version>27.0.1</version>
+		<version>28.0.0</version>
 		<relativePath />
 	</parent>
 
@@ -173,15 +173,18 @@
 		<premain-class>net.imagej.legacy.LegacyJavaAgent</premain-class>
 
 		<license.licenseName>bsd_2</license.licenseName>
-		<license.copyrightOwners>Board of Regents of the University of
-Wisconsin-Madison, Broad Institute of MIT and Harvard, and Max Planck
-Institute of Molecular Cell Biology and Genetics.</license.copyrightOwners>
+		<license.copyrightOwners>ImageJ developers.</license.copyrightOwners>
 		<license.projectName>ImageJ software for multidimensional image processing and analysis.</license.projectName>
 		<license.excludes>**/script_templates/**,**/doc/**</license.excludes>
 
 		<!-- NB: Deploy releases to the SciJava Maven repository. -->
 		<releaseProfiles>deploy-to-scijava</releaseProfiles>
 		<imagej1.version>888</imagej1.version>
+		<miglayout-swing.version>5.2</miglayout-swing.version>
+		<scijava-search.version>0.7.0</scijava-search.version>
+		<scijava-ui-awt.version>0.1.7</scijava-ui-awt.version>
+		<scijava-ui-swing.version>0.13.1</scijava-ui-swing.version>
+		<script-editor.version>0.5.4</script-editor.version>
 	</properties>
 
 	<repositories>
@@ -228,6 +231,10 @@ Institute of Molecular Cell Biology and Genetics.</license.copyrightOwners>
 		</dependency>
 		<dependency>
 			<groupId>net.imglib2</groupId>
+			<artifactId>imglib2-realtransform</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.imglib2</groupId>
 			<artifactId>imglib2-roi</artifactId>
 		</dependency>
 
@@ -259,19 +266,35 @@ Institute of Molecular Cell Biology and Genetics.</license.copyrightOwners>
 
 		<!-- Third party dependencies -->
 		<dependency>
+			<groupId>com.fifesoft</groupId>
+			<artifactId>autocomplete</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fifesoft</groupId>
+			<artifactId>languagesupport</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fifesoft</groupId>
+			<artifactId>rsyntaxtextarea</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.javassist</groupId>
 			<artifactId>javassist</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>com.miglayout</groupId>
+			<artifactId>miglayout-swing</artifactId>
+			<version>${miglayout-swing.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.trove4j</groupId>
+			<artifactId>trove4j</artifactId>
+		</dependency>
+		
 		<!-- Test dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.scijava</groupId>
-			<artifactId>scripting-groovy</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -280,8 +303,15 @@ Institute of Molecular Cell Biology and Genetics.</license.copyrightOwners>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<!-- NB: Needed despite dependency:analyze warning. -->
 			<groupId>org.openjdk.jmh</groupId>
 			<artifactId>jmh-generator-annprocess</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<!-- NB: Needed despite dependency:analyze warning. -->
+			<groupId>org.scijava</groupId>
+			<artifactId>scripting-groovy</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
