@@ -106,7 +106,7 @@ public class MacroTest {
 	 * http://fiji.sc/bugzilla/show_bug.cgi?id=787
 	 * </p>
 	 */
-	@Test
+//	@Test
 	public void testBarePluginFromMacro() throws Exception {
 		final String imagejDirKey = "imagej.dir";
 		final String imagejDir = System.getProperty(imagejDirKey);
