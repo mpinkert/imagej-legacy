@@ -30,6 +30,7 @@
 package net.imagej.legacy;
 
 import ij.ImagePlus;
+import ij.ImageStack;
 import ij.WindowManager;
 import ij.gui.ImageWindow;
 import ij.gui.Roi;
@@ -44,6 +45,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import net.imagej.Data;
 import net.imagej.Dataset;
+import net.imagej.DatasetService;
 import net.imagej.display.ImageDisplay;
 import net.imagej.display.ImageDisplayService;
 import net.imagej.legacy.convert.TableListWrapper;
@@ -235,6 +237,7 @@ public class LegacyImageMap extends AbstractContextual {
 		ds.getProperties().put(LegacyImageMap.IMP_KEY, imp);
 		final ImageDisplay display = (ImageDisplay) displayService.createDisplay(ds
 			.getName(), ds);
+		Map<String, Object> newmap = ds.getProperties();
 		addMapping(display, imp);
 		synchronizeAttachmentsToImagePlus(imp, ds);
 		return imp;
@@ -291,6 +294,46 @@ public class LegacyImageMap extends AbstractContextual {
 		synchronizeAttachmentsToDataset(display, imp);
 		return display;
 	}
+
+	/**
+	 * Update an {@link ImagePlus} to have the same values as its corresponding {@link ImageDisplay}
+	 * @param imp {@link ImagePlus} to harmonize
+	 */
+	public void updateImagePlus(final ImagePlus imp){
+		final Harmonizer harmonizer = new Harmonizer(legacyService.getContext(), imageTranslator);
+		ImageDisplay display = lookupDisplay(imp);
+
+		if (display != null){
+			harmonizer.updateLegacyImage(display, imp);
+		}
+	}
+
+	/**
+	 * Update a {@link ImageDisplay} and {@link Dataset} to have the same values as a corresponding {@link ImagePlus}
+	 * @param display {@link ImageDisplay} to harmonize
+	 */
+	public void updateDisplay(final ImageDisplay display){
+		final Harmonizer harmonizer = new Harmonizer(legacyService.getContext(), imageTranslator);
+		ImagePlus imp = lookupImagePlus(display);
+
+		if (imp != null){
+			harmonizer.updateDisplay(display, imp);
+		}
+	}
+//
+//	public void updateDataset(final Dataset dataset){
+//		final Harmonizer harmonizer = new Harmonizer(legacyService.getContext(), imageTranslator);
+//		List<ImageDisplay> displayList = imageDisplayService.getImageDisplays();
+//
+//		for (int i = 0; i < displayList.size(); i++){
+//			ImageDisplay display = displayList.get(i);
+//		}
+//
+//		if (display != null){
+//			harmonizer.updateDisplay(display, imp);
+//		}
+//	}
+
 
 	public synchronized void toggleLegacyMode(boolean enteringLegacyMode) {
 		if (enteringLegacyMode)
