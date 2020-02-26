@@ -118,9 +118,13 @@ public class Harmonizer extends AbstractContextual {
 		// because imglib cannot represent an empty data container. So we catch
 		// the issue here:
 
-		if (imp.getStack().getSize() == 0)
+		ImageStack stack = imp.getStack();
+
+		if (stack.getSize() == 0)
 			throw new IllegalArgumentException(
 					"cannot update a display with an ImagePlus that has an empty stack");
+
+		stack.setPixels(imp.getProcessor().getPixels(), imp.getCurrentSlice());
 
 		final Dataset ds = imageDisplayService.getActiveDataset(display);
 
